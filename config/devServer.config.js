@@ -7,4 +7,5 @@ module.exports = {
   compress: true,
   open: true,
   hot: true,
+  historyApiFallback: true,
 };

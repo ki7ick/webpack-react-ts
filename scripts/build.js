@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const chalk = require("chalk");
 const getWebpackConfig = require("../config/webpack.config");
 
-const compiler = webpack(getWebpackConfig(false));
+const compiler = webpack(getWebpackConfig("production"));
 
 process.env.NODE_ENV = "production";
 

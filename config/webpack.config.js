@@ -4,7 +4,9 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const paths = require("./paths");
 
-module.exports = DEV => {
+module.exports = mode => {
+  const DEV = mode === "development";
+
   const getCSSRule = (modules, sass) => {
     return [
       DEV ? "style-loader" : MiniCssExtractPlugin.loader,
@@ -20,8 +22,9 @@ module.exports = DEV => {
   };
 
   return {
-    mode: DEV ? "development" : "production",
-    ...(DEV && { devtool: "eval-source-map" }),
+    mode,
+    target: "browserslist",
+    devtool: DEV && "eval-source-map",
     entry: paths.appEntry,
     output: {
       clean: true,

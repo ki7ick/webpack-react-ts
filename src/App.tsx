@@ -1,14 +1,28 @@
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 import "./App.css";
 
 const App = () => {
-  return (
-    <div className="root">
-      <h1>Hello</h1>
-      <button onClick={() => alert("hello")} className="root">
-        Click Me
-      </button>
-    </div>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <div>
+          Hello world!
+          <Link to="/work">Click to Work</Link>
+        </div>
+      ),
+    },
+    {
+      path: "/work",
+      element: <Link to="/home">Work, To Home</Link>,
+    },
+    {
+      path: "/home",
+      element: <Link to="/work">Home, To Work</Link>,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;

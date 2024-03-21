@@ -5,7 +5,7 @@ const getWebpackConfig = require("../config/webpack.config");
 
 process.env.NODE_ENV = "development";
 
-const compiler = Webpack(getWebpackConfig(true));
+const compiler = Webpack(getWebpackConfig("development"));
 const server = new WebpackDevServer(devServerConfig, compiler);
 
 server.start();
