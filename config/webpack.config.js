@@ -29,7 +29,7 @@ module.exports = mode => {
     output: {
       clean: true,
       path: paths.appBuild,
-      filename: "js/[name].[chunkhash:8].js",
+      filename: "JS/[name].[chunkhash:8].js",
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".scss"],
@@ -70,11 +70,8 @@ module.exports = mode => {
       ],
     },
     plugins: [
-      !DEV &&
-        new MiniCssExtractPlugin({
-          filename: "css/[name].css",
-        }),
-      new BundleAnalyzerPlugin(),
+      !DEV && new MiniCssExtractPlugin({ filename: "CSS/[name].css" }),
+      !DEV && new BundleAnalyzerPlugin(),
       new HtmlWebpackPlugin({
         template: paths.appHtml,
       }),

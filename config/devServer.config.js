@@ -5,7 +5,7 @@ module.exports = {
     progress: true,
   },
   compress: true,
-  open: true,
+  liveReload: true,
   hot: true,
   historyApiFallback: true,
 };
