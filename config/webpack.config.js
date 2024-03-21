@@ -1,34 +1,35 @@
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const paths = require("./paths");
 
-const getCSSRule = (modules, sass) => {
-  return [
-    "style-loader",
-    {
-      loader: "css-loader",
-      options: {
-        modules,
-      },
-    },
-    "postcss-loader",
-    sass && "sass-loader",
-  ].filter(Boolean);
-};
-
 module.exports = DEV => {
+  const getCSSRule = (modules, sass) => {
+    return [
+      DEV ? "style-loader" : MiniCssExtractPlugin.loader,
+      {
+        loader: "css-loader",
+        options: {
+          modules,
+        },
+      },
+      "postcss-loader",
+      sass && "sass-loader",
+    ].filter(Boolean);
+  };
+
   return {
     mode: DEV ? "development" : "production",
-    ...(DEV && { devtool: "cheap-module-eval-source-map" }),
+    ...(DEV && { devtool: "eval-source-map" }),
     entry: paths.appEntry,
     output: {
       clean: true,
       path: paths.appBuild,
-      filename: "[name].[chunkhash:8].js",
+      filename: "js/[name].[chunkhash:8].js",
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".js"],
+      extensions: [".ts", ".tsx", ".js", ".scss"],
     },
     module: {
       rules: [
@@ -66,11 +67,15 @@ module.exports = DEV => {
       ],
     },
     plugins: [
+      !DEV &&
+        new MiniCssExtractPlugin({
+          filename: "css/[name].css",
+        }),
       new BundleAnalyzerPlugin(),
       new HtmlWebpackPlugin({
         template: paths.appHtml,
       }),
-    ],
+    ].filter(Boolean),
     optimization: {
       minimize: true,
       splitChunks: {
