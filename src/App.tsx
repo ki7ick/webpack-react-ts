@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import KPng from "./assets/kickr.png";
+import KSvg from "./assets/kickr.svg";
 import "./App.css";
 
 const App = () => {
@@ -9,6 +11,8 @@ const App = () => {
         <div>
           Hello world!1111
           <Link to="/work">Click to Work</Link>
+          <img src={KPng} />
+          <img src={KSvg} />
         </div>
       ),
     },

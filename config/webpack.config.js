@@ -30,6 +30,9 @@ module.exports = mode => {
       clean: true,
       path: paths.appBuild,
       filename: "JS/[name].[chunkhash:8].js",
+      assetModuleFilename: DEV
+        ? "ASSETS/[ext]/[name]-[hash:8][ext][query]"
+        : "ASSETS/[ext]/[hash][ext][query]",
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".scss"],
@@ -67,11 +70,15 @@ module.exports = mode => {
             },
           ],
         },
+        {
+          test: /\.(png|jpg|svg|ttf)$/,
+          type: "asset/resource",
+        },
       ],
     },
     plugins: [
       !DEV && new MiniCssExtractPlugin({ filename: "CSS/[name].css" }),
-      !DEV && new BundleAnalyzerPlugin(),
+      // !DEV && new BundleAnalyzerPlugin(),
       new HtmlWebpackPlugin({
         template: paths.appHtml,
       }),
