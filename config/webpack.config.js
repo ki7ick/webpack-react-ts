@@ -107,7 +107,37 @@ module.exports = mode => {
     ].filter(Boolean),
     optimization: {
       minimize: true,
-      splitChunks: { chunks: "all" },
+      splitChunks: {
+        chunks: "all",
+        minSize: 1024,
+        maxSize: 10240,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        automaticNameDelimiter: "_",
+        enforceSizeThreshold: 30000,
+        cacheGroups: {
+          // more info see https://medium.com/naukri-engineering/mastering-webpack-splitchunks-plugin-tips-and-tricks-14be89f7a9e2
+          common: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -5,
+            reuseExistingChunk: true,
+            chunks: "initial",
+            name: "CacheGroups/common_app",
+            minSize: 0,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          reactPackage: {
+            test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+            name: "CacheGroups/vendor_react",
+            chunks: "all",
+            priority: 10,
+          },
+        },
+      },
       runtimeChunk: { name: "runtime" },
     },
   };
