@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const paths = require("./paths");
@@ -13,11 +14,27 @@ module.exports = mode => {
       {
         loader: "css-loader",
         options: {
-          modules,
+          modules: {
+            mode: modules ? "local" : "global",
+            localIdentName: DEV
+              ? "[local]__[path][name]--[hash:base64:5]"
+              : "[hash:base64]",
+          },
         },
       },
-      "postcss-loader",
-      sass && "sass-loader",
+      {
+        loader: "postcss-loader",
+        options: {
+          sourceMap: true,
+        },
+      },
+      sass && {
+        loader: "sass-loader",
+        options: {
+          sourceMap: true,
+        },
+      },
+      ,
     ].filter(Boolean);
   };
 
@@ -82,6 +99,7 @@ module.exports = mode => {
     },
     plugins: [
       !DEV && new MiniCssExtractPlugin({ filename: "CSS/[name].css" }),
+      new WebpackManifestPlugin(),
       !DEV && new BundleAnalyzerPlugin(),
       new HtmlWebpackPlugin({
         template: paths.appHtml,
@@ -89,9 +107,8 @@ module.exports = mode => {
     ].filter(Boolean),
     optimization: {
       minimize: true,
-      splitChunks: {
-        chunks: "all",
-      },
+      splitChunks: { chunks: "all" },
+      runtimeChunk: { name: "runtime" },
     },
   };
 };

@@ -32,6 +32,11 @@ compiler.run((err, stats) => {
 
   if (stats.hasErrors()) console.error(info.errors);
 
+  if (stats.hasErrors()) {
+    console.error(info.errors);
+    console.log("==========>", "\n");
+    console.error(stats.toString("errors-only"));
+  }
   if (stats.hasWarnings()) console.warn(info.warnings);
 
   compiler.close(closeErr => {
