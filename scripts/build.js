@@ -1,12 +1,12 @@
-const webpack = require("webpack");
-const chalk = require("chalk");
-const getWebpackConfig = require("../config/webpack.config");
+const Webpack = require("webpack");
+const Chalk = require("chalk");
+const GetWebpackConfig = require("../config/webpack.config");
 
-const compiler = webpack(getWebpackConfig("production"));
+const compiler = Webpack(GetWebpackConfig("production"));
 
 process.env.NODE_ENV = "production";
 
-console.log(chalk.blue("[Start]: => Start building..."));
+console.log(Chalk.blue("[Start]: => Start building..."));
 
 compiler.run((err, stats) => {
   if (err) {
@@ -16,7 +16,7 @@ compiler.run((err, stats) => {
   }
 
   const info = stats.toJson();
-  console.log(chalk.blue("[Detail]: =>"), "\n");
+  console.log(Chalk.blue("[Detail]: =>"), "\n");
   console.log({
     assets: info.assets,
     hash: info.hash,
@@ -25,7 +25,7 @@ compiler.run((err, stats) => {
   });
 
   console.log(
-    chalk.green(
+    Chalk.green(
       `[Success]: => compiled in ${info.time} ms by webpack ${info.version}`
     )
   );
