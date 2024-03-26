@@ -5,7 +5,7 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const paths = require("./paths");
 
-module.exports = mode => {
+module.exports = (mode, analysis) => {
   const DEV = mode === "development";
 
   const getCSSRule = (modules, sass) => {
@@ -47,8 +47,8 @@ module.exports = mode => {
       clean: true,
       path: paths.appBuild,
       filename: pathData =>
-        pathData.chunk.name === "main"
-          ? "main.[chunkhash:8].js"
+        ["main", "runtime"].includes(pathData.chunk.name)
+          ? "JS/[name].js"
           : "JS/[name].[chunkhash:8].js",
       assetModuleFilename: DEV
         ? "ASSETS/[ext]/[name]-[hash:8][ext][query]"
@@ -99,8 +99,8 @@ module.exports = mode => {
     },
     plugins: [
       !DEV && new MiniCssExtractPlugin({ filename: "CSS/[name].css" }),
-      new WebpackManifestPlugin(),
-      !DEV && new BundleAnalyzerPlugin(),
+      new WebpackManifestPlugin({ fileName: "JS/manifest.json" }),
+      !DEV && analysis && new BundleAnalyzerPlugin(),
       new HtmlWebpackPlugin({
         template: paths.appHtml,
       }),
@@ -122,7 +122,7 @@ module.exports = mode => {
             priority: -5,
             reuseExistingChunk: true,
             chunks: "initial",
-            name: "CacheGroups/common_app",
+            name: "CommonApp/app",
             minSize: 0,
           },
           default: {

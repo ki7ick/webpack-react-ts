@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/dev.js",
     "build": "node scripts/build.js",
-    "webpack": "webpack --config ./config/webpack.pro.config.js"
+    "analysis": "node scripts/analysis.js"
   },
   "keywords": [],
   "author": "",
