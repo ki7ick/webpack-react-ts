@@ -1,5 +1,5 @@
 import KPng from "../../assets/kickr.png";
-import KSvg from "../../assets/kickr.svg";
+import KSvg from "assets/kickr.svg";
 
 export default function Workbench() {
   return (

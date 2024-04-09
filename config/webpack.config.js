@@ -57,7 +57,11 @@ module.exports = (mode, analysis) => {
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".scss"],
+      alias: {
+        assets: paths.resolveApp("src/assets"),
+      },
     },
+
     module: {
       rules: [
         {

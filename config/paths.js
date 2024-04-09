@@ -7,6 +7,7 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = {
+  resolveApp,
   appPath: resolveApp("."),
   appEntry: resolveApp("src/index.tsx"),
   appBuild: resolveApp(".dist"),

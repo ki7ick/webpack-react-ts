@@ -8,4 +8,5 @@ module.exports = {
   liveReload: true,
   hot: true,
   historyApiFallback: true,
+  port: 3333,
 };
