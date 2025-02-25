@@ -4,6 +4,7 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const paths = require("./paths");
+const path = require("path");
 
 module.exports = (mode, analysis) => {
   const DEV = mode === "development";
@@ -67,7 +68,7 @@ module.exports = (mode, analysis) => {
         {
           test: /\.tsx?$/,
           include: paths.appSrc,
-          use: "babel-loader",
+          use: ["babel-loader", path.resolve("./loaders/autoCSSModulesLoader")],
         },
         {
           test: /\.css$/,
